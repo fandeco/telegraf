@@ -15,21 +15,6 @@ services:
             - INFLUXD_REPORTING_DISABLED=false
             - TELEGRAF_LISTENER_PORT=8080
             - TELEGRAF_LISTENER_PATH=/
-            - GF_SECURITY_ADMIN_USER=admin
-            - GF_SECURITY_ADMIN_PASSWORD=password
-            - GF_SERVER_ROOT_URL=http://localhost:3000
-            - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/duplicati_dashboard.json
-            - GF_SMTP_ENABLED=false
-            - GF_SMTP_HOST=localhost:25
-            - GF_SMTP_FROM_NAME=Grafana
-            - GF_SMTP_USER=
-            - GF_SMTP_PASSWORD=
-            - GF_SMTP_FROM_ADDRESS=admin@grafana.localhost
-            - GF_SMTP_EHLO_IDENTITY=${HOSTNAME}
-            - GF_SMTP_STARTTLS_POLICY=
-            - NOTIFIER_EMAIL_RECIPIENT=example@example.com,example2@example.com
-            - NOTIFIER_EMAIL_REMINDER_ENABLE=true
-            - NOTIFIER_EMAIL_REMINDER_FREQUENCY=2h
         networks:
             - monitoring
     telegraf:
