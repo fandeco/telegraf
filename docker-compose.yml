@@ -51,6 +51,59 @@ services:
                 - "traefik.http.routers.telegraf.rule=Host(`telegraf.${DOMAIN:-localhost}`)"
                 - "traefik.http.routers.telegraf.tls.certresolver=letsencryptresolver"
                 - "traefik.http.services.telegraf.loadbalancer.server.port=8080"
+    grafana:
+        image: grafana/grafana-oss:9.4.7
+        depends_on:
+            - influxdb
+        volumes:
+            - 'monitoring-grafana:/var/lib/grafana'
+        environment:
+            - GF_SECURITY_ADMIN_USER=admin
+            - GF_SECURITY_ADMIN_PASSWORD=password
+            - GF_SERVER_ROOT_URL=http://localhost:3000
+            - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/duplicati_dashboard.json
+            - GF_SMTP_ENABLED=false
+            - GF_SMTP_HOST=localhost:25
+            - GF_SMTP_FROM_NAME=Grafana
+            - GF_SMTP_USER=
+            - GF_SMTP_PASSWORD=
+            - GF_SMTP_FROM_ADDRESS=admin@grafana.localhost
+            - GF_SMTP_EHLO_IDENTITY=${HOSTNAME}
+            - GF_SMTP_STARTTLS_POLICY=
+            - NOTIFIER_EMAIL_RECIPIENT=example@example.com,example2@example.com
+            - NOTIFIER_EMAIL_REMINDER_ENABLE=true
+            - NOTIFIER_EMAIL_REMINDER_FREQUENCY=2h
+        networks:
+            - traefik_traefik-public
+            - monitoring
+        deploy:
+            replicas: 1
+            update_config:
+                parallelism: 2 # обятельно 2 паралельных процесс
+                delay: 15s
+                order: start-first
+            labels:
+                - "traefik.enable=true"
+                - "traefik.docker.network=traefik_traefik-public"
+                - "traefik.http.routers.grafana.entrypoints=websecure"
+                - "traefik.http.routers.grafana.rule=Host(`grafana.${DOMAIN:-localhost}`)"
+                - "traefik.http.routers.grafana.tls.certresolver=letsencryptresolver"
+                - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+        configs:
+            -   source: grafana_alerting_duplicati
+                target: /etc/grafana/provisioning/alerting/duplicati_alert.yml
+            -   source: grafana_alerting_email
+                target: /etc/grafana/provisioning/alerting/email_contact_point.yml
+            -   source: grafana_notifications_policies
+                target: /etc/grafana/provisioning/alerting/notifications_policies.yml
+            -   source: grafana_dashboard
+                target: /etc/grafana/provisioning/dashboards/dashboards.yml
+            -   source: grafana_dashboard_duplicati
+                target: /etc/grafana/provisioning/dashboards/duplicati_dashboard.json
+            -   source: grafana_datasource
+                target: /etc/grafana/provisioning/datasources/datasources.yml
+            -   source: grafana_notifiers
+                target: /etc/grafana/provisioning/notifiers/notifiers.yml
 networks:
     traefik_traefik-public:
         external: true
@@ -62,3 +115,18 @@ volumes:
 configs:
     telegraf_config:
         file: ./telegraf/telegraf.conf
+    grafana_alerting_duplicati:
+        file: ./grafana/provisioning/alerting/duplicati_alert.yml
+    grafana_alerting_email:
+        file: ./grafana/provisioning/alerting/email_contact_point.yml
+    grafana_notifications_policies:
+        file: ./grafana/provisioning/alerting/notifications_policies.yml
+    grafana_dashboard:
+        file: ./grafana/provisioning/dashboards/dashboards.yml
+    grafana_dashboard_duplicati:
+        file: ./grafana/provisioning/dashboards/duplicati_dashboard.json
+    grafana_datasource:
+        file: ./grafana/provisioning/datasources/datasources.yml
+    grafana_notifiers:
+        file: ./grafana/provisioning/notifiers/notifiers.yml
+
