@@ -40,7 +40,9 @@ services:
         depends_on:
             - influxdb
         environment:
-            - INFLUXD_REPORTING_DISABLED=false
+            - DOCKER_INFLUXDB_INIT_ORG=telegraf_org
+            - DOCKER_INFLUXDB_INIT_BUCKET=telegraf
+            - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=telegraf_token
             - TELEGRAF_LISTENER_PORT=8080
             - TELEGRAF_LISTENER_PATH=/
         networks:
