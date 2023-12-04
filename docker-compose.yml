@@ -51,6 +51,7 @@ services:
         volumes:
             - 'monitoring-grafana:/var/lib/grafana'
         environment:
+            - INFLUXD_REPORTING_DISABLED=false
             - TELEGRAF_LISTENER_PORT=8080
             - TELEGRAF_LISTENER_PATH=/
             - GF_SECURITY_ADMIN_USER=admin
