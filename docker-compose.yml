@@ -48,7 +48,7 @@ services:
             - GF_AUTH
         env_file:
             - ./.env
-            - GF_AUTH
+            - /run/secrets/GF_AUTH
         networks:
             - traefik_traefik-public
             - monitoring
