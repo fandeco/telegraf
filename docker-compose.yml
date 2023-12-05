@@ -107,3 +107,4 @@ configs:
         file: ./grafana/provisioning/datasources/datasources.yml
     grafana_notifiers:
         file: ./grafana/provisioning/notifiers/notifiers.yml
+
