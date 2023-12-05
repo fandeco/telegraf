@@ -44,8 +44,11 @@ services:
             - influxdb
         volumes:
             - 'monitoring-grafana:/var/lib/grafana'
+        secrets:
+            - GF_AUTH
         env_file:
             - ./.env
+            - ./run/secrets/GF_AUTH
         networks:
             - traefik_traefik-public
             - monitoring
@@ -107,4 +110,6 @@ configs:
         file: ./grafana/provisioning/datasources/datasources.yml
     grafana_notifiers:
         file: ./grafana/provisioning/notifiers/notifiers.yml
-
+secrets:
+    GF_AUTH:
+        external: true
