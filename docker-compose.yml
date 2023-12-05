@@ -113,4 +113,14 @@ configs:
         file: ./grafana/provisioning/datasources/datasources.yml
     grafana_notifiers:
         file: ./grafana/provisioning/notifiers/notifiers.yml
-
+secrets:
+    GF_AUTH_GENERIC_OAUTH_CLIENT_ID:
+        external: true
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+        external: true
+    GF_AUTH_GENERIC_OAUTH_AUTH_URL:
+        external: true
+    GF_AUTH_GENERIC_OAUTH_TOKEN_URL:
+        external: true
+    GF_AUTH_GENERIC_OAUTH_API_URL:
+        external: true
