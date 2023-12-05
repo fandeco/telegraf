@@ -51,13 +51,13 @@ services:
             - GF_AUTH_GENERIC_OAUTH_ENABLED=true
             - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
             - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
-            - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
-            - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+            - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=/run/secrets/GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+            - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=/run/secrets/GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
             - GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_NAME=email:primary
             - GF_AUTH_GENERIC_OAUTH_SCOPES="openid profile email"
-            - GF_AUTH_GENERIC_OAUTH_AUTH_URL=${GF_AUTH_GENERIC_OAUTH_AUTH_URL}
-            - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=${GF_AUTH_GENERIC_OAUTH_TOKEN_URL}
-            - GF_AUTH_GENERIC_OAUTH_API_URL=${GF_AUTH_GENERIC_OAUTH_API_URL}
+            - GF_AUTH_GENERIC_OAUTH_AUTH_URL=/run/secrets/GF_AUTH_GENERIC_OAUTH_AUTH_URL
+            - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=/run/secrets/GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+            - GF_AUTH_GENERIC_OAUTH_API_URL=/run/secrets/GF_AUTH_GENERIC_OAUTH_API_URL
         env_file:
             - ./.env
         networks:
@@ -121,3 +121,14 @@ configs:
         file: ./grafana/provisioning/datasources/datasources.yml
     grafana_notifiers:
         file: ./grafana/provisioning/notifiers/notifiers.yml
+secrets:
+    GF_AUTH_GENERIC_OAUTH_CLIENT_ID:
+        file: ./grafana/secrets/GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+    GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+        file: ./grafana/secrets/GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+    GF_AUTH_GENERIC_OAUTH_AUTH_URL:
+        file: ./grafana/secrets/GF_AUTH_GENERIC_OAUTH_AUTH_URL
+    GF_AUTH_GENERIC_OAUTH_TOKEN_URL:
+        file: ./grafana/secrets/GF_AUTH_GENERIC_OAUTH_TOKEN_URL
+    GF_AUTH_GENERIC_OAUTH_API_URL:
+        file: ./grafana/secrets/GF_AUTH_GENERIC_OAUTH_API_URL
