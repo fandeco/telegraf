@@ -51,13 +51,13 @@ services:
             - "GF_AUTH_GENERIC_OAUTH_ENABLED=true"
             - "GF_AUTH_GENERIC_OAUTH_NAME=Keycloak"
             - "GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true"
-            - "GF_AUTH_GENERIC_OAUTH_CLIENT_ID=$(CLIENT_ID)"
-            - "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=$(CLIENT_SECRET)"
+            - "GF_AUTH_GENERIC_OAUTH_CLIENT_ID=${CLIENT_ID}"
+            - "GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=${CLIENT_SECRET}"
             - "GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_NAME=email:primary"
             - "GF_AUTH_GENERIC_OAUTH_SCOPES=openid profile email"
-            - "GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://$(CLIENT_URL)/realms/$(CLIENT_REALM)/protocol/openid-connect/auth"
-            - "GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://$(CLIENT_URL)/realms/$(CLIENT_REALM)/protocol/openid-connect/token"
-            - "GF_AUTH_GENERIC_OAUTH_API_URL=https://$(CLIENT_URL)/realms/$(CLIENT_REALM)/protocol/openid-connect/userinfo"
+            - "GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://${CLIENT_URL}/realms/${CLIENT_REALM}/protocol/openid-connect/auth"
+            - "GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://${CLIENT_URL}/realms/${CLIENT_REALM}/protocol/openid-connect/token"
+            - "GF_AUTH_GENERIC_OAUTH_API_URL=https://${CLIENT_URL}/realms/${CLIENT_REALM}/protocol/openid-connect/userinfo"
         env_file:
             - ./.env
         networks:
